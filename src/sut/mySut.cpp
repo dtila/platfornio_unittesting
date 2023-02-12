@@ -17,7 +17,8 @@ void MySut::setValue(float value)
 
 uint32_t MySut::getCalculation() const
 {
-    float diff = _memorizedValue - _sensor1->get_linear_value(1, 1000);
+    float sensor = _sensor1->get_linear_value(1, 1000);
+    float diff = _memorizedValue - sensor;
     if (diff <= 0)
         return 0;
 

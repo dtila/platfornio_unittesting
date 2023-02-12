@@ -16,18 +16,28 @@ void tearDown()
 {
 }
 
-void SoilHumidityLessThanTarget_NoWateringTime(void)
+void TestMock()
+{
+  When(Method(sensor1Mock, get_linear_value)).Return(9);
+
+  ISensorProvider &sensor = sensor1Mock.get();
+  auto sensorValue = sensor.get_linear_value(10, 100);
+
+  TEST_ASSERT_EQUAL(9, sensorValue);
+}
+
+void Test_Less(void)
 {
   const float target = 10;
   
   sut.setValue(target);
   When(Method(sensor1Mock, get_linear_value)).Return(target - 1);
-
+  
   auto result = sut.getCalculation();
   TEST_ASSERT_EQUAL(0, result);
 }
 
-void SoilHumidityGreaterThanTarget_FireWatering(void)
+void Test_Greater(void)
 {
   const float target = 10;
   sut.setValue(target);
@@ -35,17 +45,15 @@ void SoilHumidityGreaterThanTarget_FireWatering(void)
 
   auto result = sut.getCalculation();
   TEST_ASSERT_GREATER_THAN(0, result);
-
-  // conditions:
-  // 1. last watering should be less than 3 minutes
 }
 
 int runUnityTests()
 {
   UNITY_BEGIN();
 
-  RUN_TEST(SoilHumidityLessThanTarget_NoWateringTime);
-  RUN_TEST(SoilHumidityGreaterThanTarget_FireWatering);
+  RUN_TEST(TestMock);
+  RUN_TEST(Test_Less);
+  RUN_TEST(Test_Greater);
 
   return UNITY_END(); // stop unit testing
 }
