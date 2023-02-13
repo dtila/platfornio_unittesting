@@ -8,8 +8,7 @@
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 
 #include <unity.h>
-#include <ArduinoFake.h>
-//#include <fakeit/fakeit_root.hpp>
+#include <Arduino.h>
 
 #pragma GCC diagnostic pop
 #endif
